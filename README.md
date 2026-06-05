@@ -1,4 +1,4 @@
-# AI Scripts
+# Local LLM Scripts
 
 A collection of local LLM-powered productivity tools that run as [Raycast](https://www.raycast.com/) commands. All inference runs on-device via [MLX](https://github.com/ml-explore/mlx) — no API keys, no data leaving your machine.
 
@@ -24,7 +24,7 @@ A collection of local LLM-powered productivity tools that run as [Raycast](https
 ### 1. Clone and install dependencies
 
 ```bash
-git clone https://github.com/alexspecter/ai-scripts
+git clone https://github.com/alexspecter/Local-LLM-Scripts
 cd ai-scripts
 uv sync
 ```
