@@ -1,0 +1,14 @@
+[project]
+name = "ai-scripts"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "mlx-lm>=0.22.0",
+    "promptloop",
+    "python-dotenv>=1.2.2",
+]
+
+[tool.uv.sources]
+promptloop = { git = "https://github.com/alexspecter/promptloop" }
