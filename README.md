@@ -25,7 +25,7 @@ A collection of local LLM-powered productivity tools that run as [Raycast](https
 
 ```bash
 git clone https://github.com/alexspecter/Local-LLM-Scripts
-cd ai-scripts
+cd Local-LLM-Scripts
 uv sync
 ```
 
