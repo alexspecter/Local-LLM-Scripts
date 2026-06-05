@@ -48,7 +48,7 @@ The model will be downloaded automatically on first run. A 4-bit quantized 32B m
 ### 3. Add scripts to Raycast
 
 1. Open Raycast → Settings → Extensions → Script Commands
-2. Add a new script directory pointing to this repo
+2. Add a new script directory pointing to the `scripts/` folder in this repo
 3. The scripts will appear as commands in Raycast
 
 ---

@@ -1,27 +1,28 @@
 #!/usr/bin/env python3
 
 # @raycast.schemaVersion 1
-# @raycast.title fixmessage
+# @raycast.title fixprompt
 # @raycast.mode fullOutput
 # @raycast.packageName Local AI
 # @raycast.icon 🦙
-# @raycast.argument1 { "type": "text", "placeholder": "Message to fix" }
+# @raycast.argument1 { "type": "text", "placeholder": "Prompt to optimize" }
 
 import sys
 import os
 import subprocess
-from dotenv import load_dotenv
+import re
 from mlx_lm import load, generate  # type: ignore
+from dotenv import load_dotenv
+load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".env"))
 
-load_dotenv()
 
 MODEL_PATH = os.getenv("MODEL_PATH")
 if not MODEL_PATH:
     print("Error: MODEL_PATH not found in environment variables.")
     sys.exit(1)
 script_dir = os.path.dirname(os.path.abspath(__file__))
-Prompt_folder = os.path.join(script_dir, "System Prompts")
-system_prompt_location = os.path.join(Prompt_folder, "fixmessage.md")
+Prompt_folder = os.path.join(script_dir, "..", "System Prompts")
+system_prompt_location = os.path.join(Prompt_folder, "fixprompt.md")
 
 # Read system prompt safely
 try:
@@ -32,33 +33,23 @@ except FileNotFoundError:
     sys.exit(1)
 
 def parse_output(text):
-    """Extracts text between '### Revised Message' and '### Diagnostic Feedback'."""
-    try:
-        # Check if the expected header exists
-        if "### Revised Message" in text:
-            # Take everything AFTER "### Revised Message"
-            content = text.split("### Revised Message")[1]
-            
-            # If the second header exists, take everything BEFORE it
-            if "### Diagnostic Feedback" in content:
-                content = content.split("### Diagnostic Feedback")[0]
-            
-            return content.strip()
-    except Exception:
-        pass # If parsing fails, return original text safely
-    
-    return text
+    """Extracts content inside the first markdown code block ``` ... ```."""
+    # Regex searches for ``` followed by optional language name, then content, then ```
+    match = re.search(r"```(?:\w+)?\s*(.*?)```", text, re.DOTALL)
+    if match:
+        return match.group(1).strip()
+    return text # Fallback: return original if no code block found
 
 def copy_to_clipboard(text):
     try:
         subprocess.run(['pbcopy'], input=text, text=True, check=True)
-        print("\n\n✅ Revised message copied to clipboard")
+        print("\n\n✅ Optimized prompt copied to clipboard")
     except Exception as e:
         print(f"\n❌ Clipboard failed: {e}")
 
 def main():
     if len(sys.argv) < 2:
-        print('Usage: fixmessage "Message to fix"')
+        print('Usage: fixprompt "Prompt to optimize"')
         sys.exit(1)
 
     text_to_fix = sys.argv[1]

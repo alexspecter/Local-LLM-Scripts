@@ -13,7 +13,7 @@ import subprocess
 from mlx_lm import load, generate  # type: ignore
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".env"))
 
 MODEL_PATH = os.getenv("MODEL_PATH")
 if not MODEL_PATH:
